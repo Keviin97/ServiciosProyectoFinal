@@ -58,13 +58,18 @@ class Usuario{
     function readOne(){
     
         // query to read single record
-        $query = "SELECT * from usuario where id_Usuario = ? LIMIT 0,1;";
+        $query = "SELECT * from usuario where Usuario = :Usuario and Pass = :Pass LIMIT 0,1;";
     
         // prepare query statement
-        $stmt = $this->conn->prepare( $query );
-    
-        // bind id of product to be updated
-        $stmt->bindParam(1, $this->id_Usuario);
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->Usuario=htmlspecialchars(strip_tags($this->Usuario));
+        $this->Pass=htmlspecialchars(strip_tags($this->Pass));
+     
+        // bind values
+        $stmt->bindParam(":Usuario", $this->Usuario);
+        $stmt->bindParam(":Pass", $this->Pass);
     
         // execute query
         $stmt->execute();
@@ -73,6 +78,7 @@ class Usuario{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
         // set values to object properties
+        $this->id_Usuario = $row['id_Usuario'];
         $this->Usuario = $row['Usuario'];
         $this->Pass = $row['Pass'];
     }

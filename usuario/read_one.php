@@ -18,12 +18,13 @@ $db = $database->getConnection();
 $usuario = new Usuario($db);
  
 // set ID property of record to read
-$usuario->id_Usuario = isset($_GET['id']) ? $_GET['id'] : die();
+$usuario->Usuario = isset($_GET['user']) ? $_GET['user'] : die();
+$usuario->Pass = isset($_GET['pass']) ? $_GET['pass'] : die();
  
 // read the details of usuario to be edited
 $usuario->readOne();
  
-if($usuario->id_Usuario!=null){
+if($usuario->Usuario!=null){
     // create array
     $usuario_arr = array(
         "id_Usuario" =>  $usuario->id_Usuario,
